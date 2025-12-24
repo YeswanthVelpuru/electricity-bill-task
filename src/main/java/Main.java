@@ -3,30 +3,28 @@ import java.util.Scanner;
 public class Main {
 
     public static float calcAmount(int units) {
-        float amount = 0;
+        float amount;
 
         if (units <= 100)
             amount = units * 1.20f;
         else if (units <= 300)
             amount = 100 * 1.20f + (units - 100) * 1.50f;
         else if (units <= 600)
-            amount = 100 * 1.20f + 200 * 1.50f + (units - 300) * 1.80f;
+            amount = 100 * 1.20f + 200 * 1.50f + (units - 300) * 1.62f;
         else
-            amount = 100 * 1.20f + 200 * 1.50f + 300 * 1.80f + (units - 600) * 2.00f;
+            amount = 100 * 1.20f + 200 * 1.50f + 300 * 1.62f + (units - 600) * 2.00f;
 
         return amount;
     }
 
     public static float calcSurcharge(float amount) {
-        if (amount > 400)
-            return amount * 0.15f;
-        return 0;
+        return amount > 400 ? amount * 0.15f : 0;
     }
 
     public static float getRate(int units) {
         if (units <= 100) return 1.20f;
         else if (units <= 300) return 1.50f;
-        else if (units <= 600) return 1.80f;
+        else if (units <= 600) return 1.62f;
         else return 2.00f;
     }
 
