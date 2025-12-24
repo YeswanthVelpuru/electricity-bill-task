@@ -2,53 +2,65 @@ import java.util.Scanner;
 
 public class Main {
 
-    static final String NL = "\n";   // FORCE UNIX newline
+    // Slab based calculation
+    public static float calcAmount(int units) {
+        float amount = 0;
+
+        if (units <= 199) {
+            amount = units * 1.20f;
+        } else if (units <= 399) {
+            amount = (199 * 1.20f) + ((units - 199) * 1.50f);
+        } else if (units <= 599) {
+            amount = (199 * 1.20f) + (200 * 1.50f) + ((units - 399) * 1.80f);
+        } else {
+            amount = (199 * 1.20f) + (200 * 1.50f) + (200 * 1.80f) + ((units - 599) * 2.00f);
+        }
+        return amount;
+    }
+
+    public static float calcSurcharge(float amount) {
+        if (amount > 400)
+            return amount * 0.15f;
+        return 0;
+    }
 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
+        StringBuilder out = new StringBuilder();
 
-        System.out.print("Calculate Electricity Bill" + NL);
-
-        System.out.print("Enter Customer ID: ");
+        out.append("Calculate Electricity Bill\n");
+        out.append("Enter Customer ID: ");
         int id = sc.nextInt();
         sc.nextLine();
 
-        System.out.print("Enter the name of the customer: ");
+        out.append("Enter the name of the customer: ");
         String name = sc.nextLine();
 
-        System.out.print("Enter the units consumed by the customer: ");
+        out.append("Enter the units consumed by the customer: \n"); // IMPORTANT SPACE
+
         int units = sc.nextInt();
 
-        double amount = calcAmount(units);
-        double surcharge = calcSurcharge(amount);
-        double netAmount = amount + surcharge;
+        float amount = calcAmount(units);
+        float surcharge = calcSurcharge(amount);
+        float total = amount + surcharge;
+        if (total < 100) total = 100;
 
-        System.out.print(NL);
-        System.out.print("Electricity Bill" + NL);
-        System.out.print("Customer ID: " + id + NL);
-        System.out.print("Customer Name: " + name + NL);
-        System.out.print("Unit Consumed: " + units + NL);
-        System.out.print("Amount Charges @$1.80per unit: " + String.format("%.2f", amount) + NL);
-        System.out.print("Surcharge Amount: " + String.format("%.2f", surcharge) + NL);
-        System.out.print("Net Amount paid by the customer: " + String.format("%.2f", netAmount) + NL);
-    }
+        float rate;
+        if (units <= 199) rate = 1.20f;
+        else if (units <= 399) rate = 1.50f;
+        else if (units <= 599) rate = 1.80f;
+        else rate = 2.00f;
 
-    static double calcAmount(int units) {
-        double amt = 0;
-        if (units <= 199)
-            amt = units * 1.20;
-        else if (units <= 399)
-            amt = (199 * 1.20) + ((units - 199) * 1.50);
-        else if (units <= 599)
-            amt = (199 * 1.20) + (200 * 1.50) + ((units - 399) * 1.80);
-        else
-            amt = (199 * 1.20) + (200 * 1.50) + (200 * 1.80) + ((units - 599) * 2.00);
-        return amt;
-    }
+        out.append("Electricity Bill\n");
+        out.append("Customer ID: ").append(id).append("\n");
+        out.append("Customer Name: ").append(name).append("\n");
+        out.append("Unit Consumed: ").append(units).append("\n");
+        out.append(String.format("Amount Charges @$%.2fper unit: %.2f\n", rate, amount));
+        out.append(String.format("Surcharge Amount: %.2f\n", surcharge));
+        out.append(String.format("Net Amount paid by the customer: %.2f", total));
 
-    static double calcSurcharge(double amount) {
-        if (amount > 400) return amount * 0.15;
-        return 0;
+        System.out.print(out.toString());
+        sc.close();
     }
 }
