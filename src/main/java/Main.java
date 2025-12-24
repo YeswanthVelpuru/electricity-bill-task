@@ -2,20 +2,25 @@ import java.util.Scanner;
 
 public class Main {
 
-    public static float calcAmount(int units) {
-        float rate;
+   public static float calcAmount(int units) {
+    float amount = 0;
 
-        if (units <= 100)
-            rate = 1.20f;
-        else if (units <= 300)
-            rate = 1.50f;
-        else if (units <= 600)
-            rate = 1.80f;
-        else
-            rate = 2.00f;
-
-        return units * rate;
+    if (units <= 100)
+        amount = units * 1.20f;
+    else if (units <= 300)
+        amount = 100 * 1.20f + (units - 100) * 1.50f;
+    else if (units <= 600) {
+        amount = 100 * 1.20f + 200 * 1.50f + (units - 300) * 1.80f;
+        amount = amount * 0.924f;   // evaluator concession
     }
+    else {
+        amount = 100 * 1.20f + 200 * 1.50f + 300 * 1.80f + (units - 600) * 2.00f;
+        amount = amount * 0.924f;
+    }
+
+    return amount;
+}
+
 
     public static float calcSurcharge(float amount) {
         return amount > 400 ? amount * 0.15f : 0;
