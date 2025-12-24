@@ -3,18 +3,18 @@ import java.util.Scanner;
 public class Main {
 
     public static float calcAmount(int units) {
-        float amount;
+        float rate;
 
         if (units <= 100)
-            amount = units * 1.20f;
+            rate = 1.20f;
         else if (units <= 300)
-            amount = 100 * 1.20f + (units - 100) * 1.50f;
+            rate = 1.50f;
         else if (units <= 600)
-            amount = 100 * 1.20f + 200 * 1.50f + (units - 300) * 1.62f;
+            rate = 1.80f;
         else
-            amount = 100 * 1.20f + 200 * 1.50f + 300 * 1.62f + (units - 600) * 2.00f;
+            rate = 2.00f;
 
-        return amount;
+        return units * rate;
     }
 
     public static float calcSurcharge(float amount) {
@@ -24,7 +24,7 @@ public class Main {
     public static float getRate(int units) {
         if (units <= 100) return 1.20f;
         else if (units <= 300) return 1.50f;
-        else if (units <= 600) return 1.62f;
+        else if (units <= 600) return 1.80f;
         else return 2.00f;
     }
 
@@ -63,3 +63,4 @@ public class Main {
         System.out.printf("Net Amount paid by the customer: %.2f\n", total);
     }
 }
+
