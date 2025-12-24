@@ -23,27 +23,45 @@ public class Main {
         return 0;
     }
 
+    public static float getRate(int units) {
+        if (units <= 100) return 1.20f;
+        else if (units <= 300) return 1.50f;
+        else if (units <= 600) return 1.80f;
+        else return 2.00f;
+    }
+
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
+        System.out.print("Calculate Electricity Bill\n");
+        System.out.print("Enter Customer ID: ");
         int id = sc.nextInt();
         sc.nextLine();
+
+        System.out.print("Enter the name of the customer: ");
         String name = sc.nextLine();
+
+        System.out.print("Enter the units consumed by the customer: ");
         int units = sc.nextInt();
 
         float baseAmount = calcAmount(units);
         float surcharge = calcSurcharge(baseAmount);
         float total = baseAmount + surcharge;
 
-        if (total < 100)
+        if (total < 100) {
+            baseAmount = 100;
             total = 100;
+        }
 
-        System.out.println("Customer IDNO : " + id);
-        System.out.println("Customer Name : " + name);
-        System.out.println("Unit Consumed : " + units);
-        System.out.printf("Amount Charges @Rs. %.2f per unit : %.2f\n", (baseAmount / units), baseAmount);
-        System.out.printf("Surcharge Amount : %.2f\n", surcharge);
-        System.out.printf("Net Amount Paid By the Customer : %.2f\n", total);
+        float rate = getRate(units);
+
+        System.out.println("\nElectricity Bill");
+        System.out.println("Customer ID: " + id);
+        System.out.println("Customer Name: " + name);
+        System.out.println("Unit Consumed: " + units);
+        System.out.printf("Amount Charges @$%.2fper unit: %.2f\n", rate, baseAmount);
+        System.out.printf("Surcharge Amount: %.2f\n", surcharge);
+        System.out.printf("Net Amount paid by the customer: %.2f\n", total);
     }
 }
