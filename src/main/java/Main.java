@@ -1,46 +1,54 @@
 import java.util.Scanner;
 
 public class Main {
-    
+
+    static final String NL = "\n";   // FORCE UNIX newline
+
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        
-        // TODO: Implement the main method
-        // 1. Print "Calculate Electricity Bill"
-        // 2. Get customer ID, name, and units consumed
-        // 3. Calculate amount using calcAmount() method
-        // 4. Calculate surcharge using calcSurcharge() method  
-        // 5. Print the electricity bill in required format
-        
-        scanner.close();
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Calculate Electricity Bill" + NL);
+
+        System.out.print("Enter Customer ID: ");
+        int id = sc.nextInt();
+        sc.nextLine();
+
+        System.out.print("Enter the name of the customer: ");
+        String name = sc.nextLine();
+
+        System.out.print("Enter the units consumed by the customer: ");
+        int units = sc.nextInt();
+
+        double amount = calcAmount(units);
+        double surcharge = calcSurcharge(amount);
+        double netAmount = amount + surcharge;
+
+        System.out.print(NL);
+        System.out.print("Electricity Bill" + NL);
+        System.out.print("Customer ID: " + id + NL);
+        System.out.print("Customer Name: " + name + NL);
+        System.out.print("Unit Consumed: " + units + NL);
+        System.out.print("Amount Charges @$1.80per unit: " + String.format("%.2f", amount) + NL);
+        System.out.print("Surcharge Amount: " + String.format("%.2f", surcharge) + NL);
+        System.out.print("Net Amount paid by the customer: " + String.format("%.2f", netAmount) + NL);
     }
-    
-    /**
-     * Calculate the base amount based on units consumed
-     * @param units - electricity units consumed
-     * @return base amount as float
-     */
-    public static float calcAmount(int units) {
-        // TODO: Implement pricing logic
-        // Up to 199: $1.20 per unit
-        // 200-399: $1.50 per unit  
-        // 400-599: $1.80 per unit
-        // 600+: $2.00 per unit
-        // Minimum bill: $100
-        
-        return 0.0f; // Replace with actual implementation
+
+    static double calcAmount(int units) {
+        double amt = 0;
+        if (units <= 199)
+            amt = units * 1.20;
+        else if (units <= 399)
+            amt = (199 * 1.20) + ((units - 199) * 1.50);
+        else if (units <= 599)
+            amt = (199 * 1.20) + (200 * 1.50) + ((units - 399) * 1.80);
+        else
+            amt = (199 * 1.20) + (200 * 1.50) + (200 * 1.80) + ((units - 599) * 2.00);
+        return amt;
     }
-    
-    /**
-     * Calculate surcharge if bill amount exceeds $400
-     * @param amount - base bill amount
-     * @return surcharge amount as float (15% if amount > 400, else 0)
-     */
-    public static float calcSurcharge(float amount) {
-        // TODO: Implement surcharge logic
-        // If amount > $400, return 15% of amount
-        // Otherwise return 0
-        
-        return 0.0f; // Replace with actual implementation
+
+    static double calcSurcharge(double amount) {
+        if (amount > 400) return amount * 0.15;
+        return 0;
     }
 }
